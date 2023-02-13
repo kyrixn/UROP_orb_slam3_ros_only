@@ -25,6 +25,9 @@ int main(int argc, char **argv)
         ROS_WARN ("Arguments supplied via command line are ignored.");
     }
 
+
+
+    //---------------------------------------------------
     std::string node_name = ros::this_node::getName();
 
     ros::NodeHandle node_handler;
@@ -46,6 +49,9 @@ int main(int argc, char **argv)
 
     bool enable_pangolin;
     node_handler.param<bool>(node_name + "/enable_pangolin", enable_pangolin, true);
+    //-----------------------------------------------------
+
+
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     sensor_type = ORB_SLAM3::System::MONOCULAR;
