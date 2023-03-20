@@ -16,8 +16,8 @@
         <param name="enable_pangolin"   type="bool"     value="false" />
         
         <!-- my param -->
-        <param name="xangle"    type="double"   value="7.5" />
-        <param name="yangle"    type="double"   value="10" />
+        <param name="xangle"    type="double"   value="100" />
+        <param name="yangle"    type="double"   value="100" />
         <param name="zangle"    type="double"   value="100" />
         
     </node>
