@@ -79,7 +79,7 @@ void setup_publishers(ros::NodeHandle &node_handler, image_transport::ImageTrans
     }
 }
 
-void publish_topics(ros::Time msg_time, Eigen::Vector3f Wbb)
+void publish_topics(ros::Time msg_time, double xangle, double yangle, double zangle, Eigen::Vector3f Wbb)
 {
     Sophus::SE3f Twc = pSLAM->GetCamTwc();
 
@@ -91,8 +91,8 @@ void publish_topics(ros::Time msg_time, Eigen::Vector3f Wbb)
     publish_tf_transform(Twc, world_frame_id, cam_frame_id, msg_time);
 
     publish_tracking_img(pSLAM->GetCurrentFrame(), msg_time);
-    publish_tracked_points(pSLAM->GetTrackedMapPoints(), msg_time);
-    publish_all_points(pSLAM->GetAllMapPoints(), msg_time);
+    publish_tracked_points(pSLAM->GetTrackedMapPoints(), msg_time, xangle, yangle, zangle);
+    publish_all_points(pSLAM->GetAllMapPoints(), msg_time, xangle, yangle, zangle);
     publish_kf_markers(pSLAM->GetAllKeyframePoses(), msg_time);
 
     // IMU-specific topics
@@ -144,14 +144,16 @@ void publish_camera_pose(Sophus::SE3f Tcw_SE3f, ros::Time msg_time)
     pose_msg.header.frame_id = world_frame_id;
     pose_msg.header.stamp = msg_time;
 
+    //modify 0
     pose_msg.pose.position.x = Tcw_SE3f.translation().x();
-    pose_msg.pose.position.y = Tcw_SE3f.translation().y();
-    pose_msg.pose.position.z = Tcw_SE3f.translation().z();
+    pose_msg.pose.position.y = Tcw_SE3f.translation().z();
+    pose_msg.pose.position.z = 0 - Tcw_SE3f.translation().y();
 
+    //modify 1
     pose_msg.pose.orientation.w = Tcw_SE3f.unit_quaternion().coeffs().w();
     pose_msg.pose.orientation.x = Tcw_SE3f.unit_quaternion().coeffs().x();
-    pose_msg.pose.orientation.y = Tcw_SE3f.unit_quaternion().coeffs().y();
-    pose_msg.pose.orientation.z = Tcw_SE3f.unit_quaternion().coeffs().z();
+    pose_msg.pose.orientation.y = 0 - Tcw_SE3f.unit_quaternion().coeffs().z();
+    pose_msg.pose.orientation.z = Tcw_SE3f.unit_quaternion().coeffs().y();
 
     pose_pub.publish(pose_msg);
 }
@@ -178,16 +180,16 @@ void publish_tracking_img(cv::Mat image, ros::Time msg_time)
     tracking_img_pub.publish(rendered_image_msg);
 }
 
-void publish_tracked_points(std::vector<ORB_SLAM3::MapPoint*> tracked_points, ros::Time msg_time)
+void publish_tracked_points(std::vector<ORB_SLAM3::MapPoint*> tracked_points, ros::Time msg_time, double xangle, double yangle, double zangle)
 {
-    sensor_msgs::PointCloud2 cloud = mappoint_to_pointcloud(tracked_points, msg_time);
+    sensor_msgs::PointCloud2 cloud = mappoint_to_pointcloud(tracked_points, msg_time, xangle, yangle, zangle);
     
     tracked_mappoints_pub.publish(cloud);
 }
 
-void publish_all_points(std::vector<ORB_SLAM3::MapPoint*> map_points, ros::Time msg_time)
+void publish_all_points(std::vector<ORB_SLAM3::MapPoint*> map_points, ros::Time msg_time, double xangle, double yangle, double zangle)
 {
-    sensor_msgs::PointCloud2 cloud = mappoint_to_pointcloud(map_points, msg_time);
+    sensor_msgs::PointCloud2 cloud = mappoint_to_pointcloud(map_points, msg_time, xangle, yangle, zangle);
     
     all_mappoints_pub.publish(cloud);
 }
@@ -214,12 +216,13 @@ void publish_kf_markers(std::vector<Sophus::SE3f> vKFposes, ros::Time msg_time)
     kf_markers.color.g = 1.0;
     kf_markers.color.a = 1.0;
 
+    //modify 3
     for (int i = 0; i <= numKFs; i++)
     {
         geometry_msgs::Point kf_marker;
         kf_marker.x = vKFposes[i].translation().x();
-        kf_marker.y = vKFposes[i].translation().y();
-        kf_marker.z = vKFposes[i].translation().z();
+        kf_marker.y = vKFposes[i].translation().z();
+        kf_marker.z = 0 - vKFposes[i].translation().y();
         kf_markers.points.push_back(kf_marker);
     }
     
@@ -230,7 +233,24 @@ void publish_kf_markers(std::vector<Sophus::SE3f> vKFposes, ros::Time msg_time)
 // Miscellaneous functions
 //////////////////////////////////////////////////
 
-sensor_msgs::PointCloud2 mappoint_to_pointcloud(std::vector<ORB_SLAM3::MapPoint*> map_points, ros::Time msg_time)
+
+tf::Vector3 Vector3Rotate(tf::Vector3 source, double xangle, double yangle, double zangle)
+{
+    const tfScalar anglex = -3.14159265358979323846 / xangle; 
+    const tfScalar angley = -3.14159265358979323846 / yangle;
+    // const tfScalar anglez = 10;
+
+    tf::Vector3 res = source;
+    const tf::Vector3 xxx = tf::Vector3(1, 0, 0);
+    res = res.rotate(tf::Vector3(1, 0, 0), anglex);
+    // res = res.rotate(tf::Vector3(0, 1, 0), angley);
+    // source.rotate(tf::Vector3(0, 0, 1), 10);
+    
+    return res;
+}
+
+
+sensor_msgs::PointCloud2 mappoint_to_pointcloud(std::vector<ORB_SLAM3::MapPoint*> map_points, ros::Time msg_time, double xangle, double yangle, double zangle)
 {
     const int num_channels = 3; // x y z
 
@@ -273,11 +293,13 @@ sensor_msgs::PointCloud2 mappoint_to_pointcloud(std::vector<ORB_SLAM3::MapPoint*
             Eigen::Vector3d P3Dw = map_points[i]->GetWorldPos().cast<double>();
 
             tf::Vector3 point_translation(P3Dw.x(), P3Dw.y(), P3Dw.z());
+            tf::Vector3 rotated = Vector3Rotate(point_translation, xangle, yangle, zangle);
 
+            //modify 2
             float data_array[num_channels] = {
-                point_translation.x(),
-                point_translation.y(),
-                point_translation.z()
+                rotated.x(),
+                rotated.z(),
+                (0 - rotated.y())
             };
 
             memcpy(cloud_data_ptr+(i*cloud.point_step), data_array, num_channels*sizeof(float));

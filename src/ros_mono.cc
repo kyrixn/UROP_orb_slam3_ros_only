@@ -16,6 +16,9 @@ public:
     void GrabImage(const sensor_msgs::ImageConstPtr& msg);
 };
 
+//my_param---------------------------------------------
+double xangle, yangle, zangle;
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "Mono");
@@ -50,7 +53,9 @@ int main(int argc, char **argv)
     bool enable_pangolin;
     node_handler.param<bool>(node_name + "/enable_pangolin", enable_pangolin, true);
     //-----------------------------------------------------
-
+    node_handler.param<double>("xangle", xangle, 7.8);
+    node_handler.param<double>("yangle", yangle, 10);
+    node_handler.param<double>("zangle", zangle, 100);
 
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
@@ -95,5 +100,5 @@ void ImageGrabber::GrabImage(const sensor_msgs::ImageConstPtr& msg)
 
     ros::Time msg_time = msg->header.stamp;
 
-    publish_topics(msg_time);
+    publish_topics(msg_time, xangle, yangle, zangle);
 }

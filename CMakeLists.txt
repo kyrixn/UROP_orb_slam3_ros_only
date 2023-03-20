@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.4.6)
 project(orb_slam3_ros)
 
 IF(NOT CMAKE_BUILD_TYPE)
@@ -30,9 +30,10 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-find_package(OpenCV 4.2)
+set(OpenCV_DIR /home/kyrixn/mine/onencv4.2/share/OpenCV)
+find_package(OpenCV 4.2.0 EXACT REQUIRED)
 if(NOT OpenCV_FOUND)
-  message(FATAL_ERROR "OpenCV 4.2 not found.")
+	message(FATAL_ERROR "OpenCV not found.")
 endif()
 
 MESSAGE("OPENCV VERSION:")
@@ -177,36 +178,36 @@ target_link_libraries(ros_mono
 )
 
 ## ROS node
-add_executable(ros_mono_inertial 
-  src/ros_mono_inertial.cc
-  src/common.cc
-)
-target_link_libraries(ros_mono_inertial 
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+# add_executable(ros_mono_inertial 
+#   src/ros_mono_inertial.cc
+#   src/common.cc
+# )
+# target_link_libraries(ros_mono_inertial 
+#   ${PROJECT_NAME}
+#   ${catkin_LIBRARIES}
+# )
 
 ## ROS node
-add_executable(ros_stereo 
-  src/ros_stereo.cc
-  src/common.cc
-)
-target_link_libraries(ros_stereo
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+# add_executable(ros_stereo 
+#   src/ros_stereo.cc
+#   src/common.cc
+# )
+# target_link_libraries(ros_stereo
+#   ${PROJECT_NAME}
+#   ${catkin_LIBRARIES}
+# )
 
 ## ROS node
-add_executable(ros_stereo_inertial
-  src/ros_stereo_inertial.cc
-  src/common.cc
-)
-target_link_libraries(ros_stereo_inertial 
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+# add_executable(ros_stereo_inertial
+#   src/ros_stereo_inertial.cc
+#   src/common.cc
+# )
+# target_link_libraries(ros_stereo_inertial 
+#   ${PROJECT_NAME}
+#   ${catkin_LIBRARIES}
+# )
 
-## ROS node
+# ROS node
 add_executable(ros_rgbd
   src/ros_rgbd.cc
   src/common.cc
@@ -216,7 +217,7 @@ target_link_libraries(ros_rgbd
   ${catkin_LIBRARIES}
 )
 
-## ROS node
+# ROS node
 add_executable(ros_rgbd_inertial
   src/ros_rgbd_inertial.cc
   src/common.cc

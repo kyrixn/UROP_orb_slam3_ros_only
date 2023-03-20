@@ -4,7 +4,7 @@
     <!-- Main node -->
     <node name="orb_slam3" pkg="orb_slam3_ros" type="ros_mono" output="screen">
         <!-- change the topics according to the dataset -->
-        <remap from="/camera/image_raw" to="/cam0/image_raw"/>
+        <remap from="/camera/image_raw" to="/camera/image_raw"/>
 
         <!-- Parameters for original ORB-SLAM3 -->
         <param name="voc_file"      type="string" value="$(find orb_slam3_ros)/orb_slam3/Vocabulary/ORBvoc.txt.bin"/>
@@ -15,9 +15,6 @@
         <param name="cam_frame_id"      type="string"   value="camera" />
         <param name="enable_pangolin"   type="bool"     value="true" />
     </node>
-    
-    <!-- Visualization -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_ros)/config/orb_slam3_no_imu.rviz" output="screen" />
     
     <!-- Trajectory path -->
     <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_orb_slam3" output="screen" ns="orb_slam3_ros" >
