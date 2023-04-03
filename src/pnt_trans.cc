@@ -6,14 +6,14 @@ ros::Publisher pub;
 
 sensor_msgs::PointCloud2 pntCloud;
 
-void pntCallback(const sensor_msgs::PointCloud2ConstPtr cloud)
+void publishPnt(sensor_msgs::PointCloud2 pc) {
+    pub.publish(pc);
+}
+
+void pntCallback(const sensor_msgs::PointCloud2 cloud)
 {
     pntCloud = cloud;
     publishPnt(pntCloud);
-}
-
-void publishPnt(sensor_msgs::PointCloud2 pc) {
-    pub.publish(pc);
 }
 
 int main(int argc, char **argv)

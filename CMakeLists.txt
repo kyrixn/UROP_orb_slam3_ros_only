@@ -217,21 +217,21 @@ target_link_libraries(pnt_trans
 # )
 
 # ROS node
-add_executable(ros_rgbd
-  src/ros_rgbd.cc
-  src/common.cc
-)
-target_link_libraries(ros_rgbd
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+# add_executable(ros_rgbd
+#   src/ros_rgbd.cc
+#   src/common.cc
+# )
+# target_link_libraries(ros_rgbd
+#   ${PROJECT_NAME}
+#   ${catkin_LIBRARIES}
+# )
 
-# ROS node
-add_executable(ros_rgbd_inertial
-  src/ros_rgbd_inertial.cc
-  src/common.cc
-)
-target_link_libraries(ros_rgbd_inertial
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+# # ROS node
+# add_executable(ros_rgbd_inertial
+#   src/ros_rgbd_inertial.cc
+#   src/common.cc
+# )
+# target_link_libraries(ros_rgbd_inertial
+#   ${PROJECT_NAME}
+#   ${catkin_LIBRARIES}
+# )

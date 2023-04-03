@@ -55,7 +55,7 @@
     	<param name="filter_speckles" value="true" />
 
     	<!-- topic from where pointcloud2 messages are subscribed -->
-    	<remap from="/cloud_in" to="/orb_slam3/tracked_points" />
+    	<remap from="/cloud_in" to="/transformed_points" />
  
     </node>    
     
