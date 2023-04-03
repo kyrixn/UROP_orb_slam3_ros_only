@@ -30,6 +30,12 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
+set(PCL_INCLUDE_DIRS /usr/include/pcl-1.10)
+find_package(PCL 1.10 REQUIRED) 
+
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
 set(OpenCV_DIR /home/kyrixn/mine/onencv4.2/share/OpenCV)
 find_package(OpenCV 4.2.0 EXACT REQUIRED)
 if(NOT OpenCV_FOUND)
@@ -88,6 +94,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${Pangolin_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 include(${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2/CMakeLists.txt)
@@ -184,6 +191,7 @@ add_executable(pnt_trans
 target_link_libraries(pnt_trans
   ${PROJECT_NAME}
   ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
 )
 
 ## ROS node
