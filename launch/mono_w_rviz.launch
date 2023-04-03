@@ -33,6 +33,9 @@
         <param name="/trajectory_publish_rate" value="20.0" />
     </node>
     
+    <!-- pnt transformation-->>
+    <node name = "pnt_transform" type = "pnt_trans", pkg = "orb_slam3_rosx">
+    </node>
     <!-- octmap -->
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
 

@@ -178,6 +178,15 @@ target_link_libraries(ros_mono
 )
 
 ## ROS node
+add_executable(pnt_trans
+  src/pnt_trans.cc
+)
+target_link_libraries(pnt_trans
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+
+## ROS node
 # add_executable(ros_mono_inertial 
 #   src/ros_mono_inertial.cc
 #   src/common.cc
