@@ -10,16 +10,6 @@
 ros::Subscriber sub;
 ros::Publisher pub;
 
-// void publishPnt(sensor_msgs::PointCloud2 pc) {
-//     pub.publish(pc);
-// }
-
-// void initROR() {
-//     ror.setInputCloud(pcl_cloud);    
-
-//     ror.setRadiusSearch(1.5);
-//     ror.setMinNeighborsInRadius(5);
-// }
 
 void pntCallback(const sensor_msgs::PointCloud2ConstPtr& cloud_msg)
 {
@@ -37,6 +27,7 @@ void pntCallback(const sensor_msgs::PointCloud2ConstPtr& cloud_msg)
     ror.setRadiusSearch(0.1);
     ror.setMinNeighborsInRadius(5);
     ror.filter (cloud_filtered);
+    
     // Convert to ROS data type
     sensor_msgs::PointCloud2 output;
     pcl_conversions::fromPCL(cloud_filtered, output);
