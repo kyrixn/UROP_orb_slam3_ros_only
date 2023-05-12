@@ -13,7 +13,7 @@ ORB_SLAM3::System::eSensor sensor_type = ORB_SLAM3::System::NOT_SET;
 // Variables for ROS
 std::string world_frame_id, cam_frame_id, imu_frame_id;
 ros::Publisher pose_pub, odom_pub, kf_markers_pub;
-ros::Publisher tracked_mappoints_pub, all_mappoints_pub;
+ros::Publisher tracked_mappoints_pub, all_mappoints_pub, finished_mappoints;
 image_transport::Publisher tracking_img_pub;
 
 //////////////////////////////////////////////////
@@ -69,6 +69,8 @@ void setup_publishers(ros::NodeHandle &node_handler, image_transport::ImageTrans
 
     all_mappoints_pub = node_handler.advertise<sensor_msgs::PointCloud2>(node_name + "/all_points", 1);
 
+    finished_mappoints = node_handler.advertise<sensor_msgs::PointCloud2>(node_name + "/finished_mappoints", 1);
+
     tracking_img_pub = image_transport.advertise(node_name + "/tracking_image", 1);
 
     kf_markers_pub = node_handler.advertise<visualization_msgs::Marker>(node_name + "/kf_markers", 1000);
@@ -79,7 +81,7 @@ void setup_publishers(ros::NodeHandle &node_handler, image_transport::ImageTrans
     }
 }
 
-void publish_topics(ros::Time msg_time, double xangle, double yangle, double zangle, Eigen::Vector3f Wbb)
+void publish_topics(ros::Time msg_time, bool finished_mapping, double xangle, double yangle, double zangle, Eigen::Vector3f Wbb)
 {
     Sophus::SE3f Twc = pSLAM->GetCamTwc();
 
@@ -92,7 +94,7 @@ void publish_topics(ros::Time msg_time, double xangle, double yangle, double zan
 
     publish_tracking_img(pSLAM->GetCurrentFrame(), msg_time);
     publish_tracked_points(pSLAM->GetTrackedMapPoints(), msg_time, xangle, yangle, zangle);
-    publish_all_points(pSLAM->GetAllMapPoints(), msg_time, xangle, yangle, zangle);
+    publish_all_points(pSLAM->GetAllMapPoints(), msg_time, finished_mapping, xangle, yangle, zangle);
     publish_kf_markers(pSLAM->GetAllKeyframePoses(), msg_time);
 
     // IMU-specific topics
@@ -187,11 +189,15 @@ void publish_tracked_points(std::vector<ORB_SLAM3::MapPoint*> tracked_points, ro
     tracked_mappoints_pub.publish(cloud);
 }
 
-void publish_all_points(std::vector<ORB_SLAM3::MapPoint*> map_points, ros::Time msg_time, double xangle, double yangle, double zangle)
+void publish_all_points(std::vector<ORB_SLAM3::MapPoint*> map_points, ros::Time msg_time, bool finished_mapping, double xangle, double yangle, double zangle)
 {
     sensor_msgs::PointCloud2 cloud = mappoint_to_pointcloud(map_points, msg_time, xangle, yangle, zangle);
     
     all_mappoints_pub.publish(cloud);
+    if(finished_mapping) {
+        ROS_INFO("map after closing published! \n");
+        finished_mappoints.publish(cloud);
+    }
 }
 
 // More details: http://docs.ros.org/en/api/visualization_msgs/html/msg/Marker.html

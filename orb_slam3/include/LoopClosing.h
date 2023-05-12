@@ -240,6 +240,9 @@ protected:
     // To (de)activate LC
     bool mbActiveLC = true;
 
+public:
+    
+
 #ifdef REGISTER_LOOP
     string mstrFolderLoop;
 #endif

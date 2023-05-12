@@ -187,22 +187,22 @@ Visualization Manager:
       Class: octomap_rviz_plugin/OccupancyMap
       Color Scheme: map
       Draw Behind: false
-      Enabled: false
+      Enabled: true
       Max. Octree Depth: 16
       Name: OccupancyMap
       Octomap Binary Topic: /octomap_binary
       Unreliable: false
       Use Timestamp: false
-      Value: false
+      Value: true
     - Class: octomap_rviz_plugin/OccupancyGrid
-      Enabled: false
+      Enabled: true
       Max. Height Display: 3.4028234663852886e+38
       Max. Octree Depth: 16
       Min. Height Display: -3.4028234663852886e+38
       Name: OccupancyGrid
       Octomap Topic: /octomap_full
       Queue Size: 5
-      Value: false
+      Value: true
       Voxel Alpha: 1
       Voxel Coloring: Z-Axis
       Voxel Rendering: Occupied Voxels
@@ -210,12 +210,12 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: false
+      Enabled: true
       Name: Map
       Topic: /projected_map
       Unreliable: false
       Use Timestamp: false
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -272,7 +272,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.851945877075195
+      Distance: 8.598179817199707
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -288,9 +288,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5497963428497314
+      Pitch: 0.39479702711105347
       Target Frame: <Fixed Frame>
-      Yaw: 2.923232316970825
+      Yaw: 2.713230609893799
     Saved: ~
 Window Geometry:
   Displays:
@@ -308,8 +308,8 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 3323
-  X: 205
-  Y: 0
+  X: 204
+  Y: 31
   raw left img:
     collapsed: false
   tracking img:

@@ -100,5 +100,5 @@ void ImageGrabber::GrabImage(const sensor_msgs::ImageConstPtr& msg)
 
     ros::Time msg_time = msg->header.stamp;
 
-    publish_topics(msg_time, xangle, yangle, zangle);
+    publish_topics(msg_time, pSLAM->isClosed(), xangle, yangle, zangle);
 }
