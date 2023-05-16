@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     bool enable_pangolin;
     node_handler.param<bool>(node_name + "/enable_pangolin", enable_pangolin, true);
     //-----------------------------------------------------
-    node_handler.param<double>("xangle", xangle, 7.8);
+    node_handler.param<double>("xangle", xangle, 8.7);
     node_handler.param<double>("yangle", yangle, 10);
     node_handler.param<double>("zangle", zangle, 100);
 
