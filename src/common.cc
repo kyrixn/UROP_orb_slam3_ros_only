@@ -244,12 +244,13 @@ tf::Vector3 Vector3Rotate(tf::Vector3 source, double xangle, double yangle, doub
 {
     const tfScalar anglex = -3.14159265358979323846 / xangle; 
     const tfScalar angley = -3.14159265358979323846 / yangle;
+    const tfScalar anglez = -3.14159265358979323846 / zangle;
     // const tfScalar anglez = 10;
 
     tf::Vector3 res = source;
-    const tf::Vector3 xxx = tf::Vector3(1, 0, 0);
     res = res.rotate(tf::Vector3(1, 0, 0), anglex);
     // res = res.rotate(tf::Vector3(0, 1, 0), angley);
+    // res = res.rotate(tf::Vector3(0, 0, 1), anglez); //green
     // source.rotate(tf::Vector3(0, 0, 1), 10);
     
     return res;
@@ -299,13 +300,11 @@ sensor_msgs::PointCloud2 mappoint_to_pointcloud(std::vector<ORB_SLAM3::MapPoint*
             Eigen::Vector3d P3Dw = map_points[i]->GetWorldPos().cast<double>();
 
             tf::Vector3 point_translation(P3Dw.x(), P3Dw.y(), P3Dw.z());
-            tf::Vector3 rotated = Vector3Rotate(point_translation, xangle, yangle, zangle);
-
             //modify 2
             float data_array[num_channels] = {
-                rotated.x(),
-                rotated.z(),
-                (0 - rotated.y())
+                point_translation.x(),
+                point_translation.z(),
+                (0 - point_translation.y())
             };
 
             memcpy(cloud_data_ptr+(i*cloud.point_step), data_array, num_channels*sizeof(float));

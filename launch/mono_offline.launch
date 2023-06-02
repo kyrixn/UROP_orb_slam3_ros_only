@@ -15,11 +15,6 @@
         <param name="cam_frame_id"      type="string"   value="camera" />
         <param name="enable_pangolin"   type="bool"     value="false" />
         
-        <!-- my param -->
-        <param name="xangle"    type="double"   value="5" />
-        <param name="yangle"    type="double"   value="10" />
-        <param name="zangle"    type="double"   value="100" />
-        
     </node>
     
     <!-- Visualization -->
@@ -38,6 +33,11 @@
     <node name = "pnt_transform" type = "pnt_trans" pkg = "orb_slam3_ros">
         <param name="offline" value="false" />
 
+        <!-- my param -->
+        <param name="x_rad"    type="double"   value="-0.3" />
+        <param name="y_rad"    type="double"   value="0" />
+        <param name="z_rad"    type="double"   value="-0.1666667" />
+
     </node>
 
 
@@ -45,7 +45,7 @@
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
 
     	<!-- resolution in meters per pixel -->
-	<param name="resolution" value="0.05" />
+	<param name="resolution" value="0.07" />
 
     	<!-- name of the fixed frame, needs to be "/map" for SLAM -->
     	<param name="frame_id" type="string" value="map" />
@@ -55,15 +55,15 @@
     	<param name="latch" value="false" />
 
     	<!-- max/min height for occupancy map, should be in meters -->
-    	<param name="pointcloud_max_z" value="0.7" />
-    	<param name="pointcloud_min_z" value="-1.0" />
+    	<param name="pointcloud_max_z" value="0.4" />
+    	<param name="pointcloud_min_z" value="-0.3" />
     	<param name="filter_speckles" value="true" />
 
         <param name="sensor_model/miss" value="0.1" />
-        <param name="sensor_model/hit" value="0.7" />
+        <param name="sensor_model/hit" value="0.6" />
 
-        <param name="senspr_model/max" value ="1.0" />
-        <param name="sensor_model/min" value="0.45" />
+        <param name="senspr_model/max" value ="100" />
+        <param name="sensor_model/min" value="-100" />
     	<!-- topic from where pointcloud2 messages are subscribed -->
     	<remap from="/cloud_in" to="/transformed_points" />
  

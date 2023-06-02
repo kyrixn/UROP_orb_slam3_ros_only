@@ -28,10 +28,10 @@ else()
   message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
-LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
+LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_10SOURCE_DIR}/cmake_modules)
 
-set(PCL_INCLUDE_DIRS /usr/include/pcl-1.10)
-find_package(PCL 1.10 REQUIRED) 
+# set(PCL_INCLUDE_DIRS /usr/include/pcl-1.10)
+find_package(PCL 1.10 REQUIRED)
 
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})

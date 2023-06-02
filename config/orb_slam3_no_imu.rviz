@@ -98,34 +98,6 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 2.8732001781463623
-        Min Value: 0
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 78; 154; 6
-      Color Transformer: FlatColor
-      Decay Time: 0
-      Enabled: false
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: tracked points
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 5
-      Size (m): 0.029999999329447746
-      Style: Spheres
-      Topic: /orb_slam3/tracked_points
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: false
-      Value: false
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
         Max Value: 10
         Min Value: -10
         Value: true
@@ -309,7 +281,7 @@ Window Geometry:
     collapsed: true
   Width: 3323
   X: 204
-  Y: 31
+  Y: 0
   raw left img:
     collapsed: false
   tracking img:

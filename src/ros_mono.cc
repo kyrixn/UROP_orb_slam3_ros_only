@@ -54,8 +54,8 @@ int main(int argc, char **argv)
     node_handler.param<bool>(node_name + "/enable_pangolin", enable_pangolin, true);
     //-----------------------------------------------------
     node_handler.param<double>("xangle", xangle, 8.7);
-    node_handler.param<double>("yangle", yangle, 10);
-    node_handler.param<double>("zangle", zangle, 100);
+    node_handler.param<double>("yangle", yangle, 10.0);
+    node_handler.param<double>("zangle", zangle, -5.0);
 
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
